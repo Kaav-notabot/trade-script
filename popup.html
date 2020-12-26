@@ -1,0 +1,29 @@
+<html>
+	<link rel="stylesheet" href="dist/popup.css">
+	<body>
+		<div class="row row--cmp">
+			<div class="row__title">CMP:</div>
+
+			<div class="row--cmp__wrapper">
+				<label for="less-than"><span>Less than:</span>
+					<input type="number" name="less-than" value="0.00" />
+				</label>
+
+				<label for="more-than"><span>More than:</span>
+					<input type="number" name="more-than" value="1.00" />
+				</label>
+			</div>
+		</div>
+
+		<div class="row row--volume">
+			<div class="row__title">Volume:</div>
+			<input type="number" name="volume-crosses" value="0" />
+		</div>
+
+		<div class="row row--controls">
+			<img class="row--controls__button row--controls__button--start" src="src/images/start.svg" alt="Play">
+			<img class="row--controls__button row--controls__button--stop" src="src/images/stop.svg" alt="Stop">
+		</div>
+		<script src="content-script.js"></script>
+	</body>
+</html>
