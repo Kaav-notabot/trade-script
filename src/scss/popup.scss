@@ -97,6 +97,16 @@ input[type="number"] {
 			max-width: 128px;
 			margin: 0 auto;
 			cursor: pointer;
+
+			&--show {
+				opacity: 1 !important;
+				pointer-events: initial !important;
+			}
+
+			&--hide {
+				opacity: 0 !important;
+				pointer-events: none !important;
+			}
 		}
 
 		&__button--start {
