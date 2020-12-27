@@ -1,7 +1,6 @@
 chrome.runtime.onMessage.addListener( function( request, sender, sendResponse) {
 	switch ( request.control ) {
 		case 'start':
-			console.log()
 			chrome.tabs.executeScript( {
 				file: 'observer.js',
 			});
