@@ -24,26 +24,53 @@ stopbtn.addEventListener( 'click', function() {
 } );
 
 document.addEventListener( 'input', function( e ) {
-	chrome.storage.sync.set( { [ e.target.name ]: Number( e.target.value ) } );
+	chrome.tabs.getSelected( null, function( tabs ) {
+		const tabId = tabs.id.toString();
+
+		chrome.storage.sync.get( [ tabId ], function( result ) {
+			const storage = result[ tabId ] || {};
+			storage[ e.target.name ] = e.target.value;
+			chrome.storage.sync.set( { [ tabId ]: storage } );
+		} );
+	} );
 } );
 
 window.onload = function() {
-	chrome.storage.sync.get( ['startObserve'], function( result ) {
-		if ( ! result.startObserve ) {
-			stopbtn.classList = [ 'row--controls__button row--controls__button--stop' ];
-			stopbtn.classList.add( 'row--controls__button--hide' );
-			startbtn.classList = [ 'row--controls__button row--controls__button--start' ];
-			startbtn.classList.add( 'row--controls__button--show' );
-		} else {
-			startbtn.classList = [ 'row--controls__button row--controls__button--start' ];
-			startbtn.classList.add( 'row--controls__button--hide' );
-			stopbtn.classList = [ 'row--controls__button row--controls__button--stop' ];
-			stopbtn.classList.add( 'row--controls__button--show' );
-		}
-	} );
+	chrome.tabs.getSelected( null, function( tabs ) {
+		const tabId = tabs.id.toString();
 
-	chrome.storage.sync.get( ['less-than', 'more-than'], function( result ) {
-		lessThanIp.value = Number( result['less-than'] );
-		moreThanIp.value = Number( result['more-than'] );
-	} )
+		chrome.storage.sync.get( [ tabId ], function( result ) {
+			const storage = result[ tabId ];
+
+			if ( ! storage || ! storage.startObserve ) {
+				stopbtn.classList = [ 'row--controls__button row--controls__button--stop' ];
+				stopbtn.classList.add( 'row--controls__button--hide' );
+				startbtn.classList = [ 'row--controls__button row--controls__button--start' ];
+				startbtn.classList.add( 'row--controls__button--show' );
+			} else {
+				startbtn.classList = [ 'row--controls__button row--controls__button--start' ];
+				startbtn.classList.add( 'row--controls__button--hide' );
+				stopbtn.classList = [ 'row--controls__button row--controls__button--stop' ];
+				stopbtn.classList.add( 'row--controls__button--show' );
+			}
+		} );
+	
+		chrome.storage.sync.get( [ tabId ], function( result ) {
+			const storage = result[ tabId ] || {};
+
+			if ( ! storage['less-than'] ) {
+				storage['less-than'] = 0.00;
+				chrome.storage.sync.set( { [ tabId ]: storage } );
+			} else {
+				lessThanIp.value = Number( storage['less-than'] );
+			}
+
+			if ( ! storage['more-than'] ) {
+				storage['more-than'] = 1.00;
+				chrome.storage.sync.set( { [ tabId ]: storage } );
+			} else {
+				moreThanIp.value = Number( storage['more-than'] );
+			}
+		} )
+	} );
 };

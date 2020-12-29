@@ -4,21 +4,19 @@ var trade = ( function() {
 
 	var config = { attributes: true, childList: true, subtree: true, characterData: true };
 	var callback = function( mutationsList, observer ) {
-		for( var mutation of mutationsList ) {
+		for ( var mutation of mutationsList ) {
 			if ( mutation.type === 'characterData' ) {
-				chrome.storage.sync.get( ['less-than', 'more-than'], function( result ) {
-					const cmp = Number( mutation.target.textContent );
-					const lessThan = result['less-than'];
-					const moreThan = result['more-than'];
+				const cmp = Number( mutation.target.textContent );
+				const lessThan = storage['less-than'];
+				const moreThan = storage['more-than'];
 
-					if ( cmp < lessThan ) {
-						console.log( 'BUY !!!' );
-					}
+				if ( cmp < lessThan ) {
+					console.log( 'BUY !!!' );
+				}
 
-					if ( cmp >= moreThan ) {
-						console.log( 'SELL !!!' );
-					}
-				} );
+				if ( cmp >= moreThan ) {
+					console.log( 'SELL !!!' );
+				}
 			}
 		}
 	};
