@@ -30,7 +30,10 @@ document.addEventListener( 'input', function( e ) {
 		chrome.storage.sync.get( [ tabId ], function( result ) {
 			const storage = result[ tabId ] || {};
 			storage[ e.target.name ] = e.target.value;
+			console.log( storage )
 			chrome.storage.sync.set( { [ tabId ]: storage } );
+
+			chrome.runtime.sendMessage( { control: 'inputChanged' }, function( response ) {} )
 		} );
 	} );
 } );

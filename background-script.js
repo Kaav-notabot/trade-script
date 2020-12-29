@@ -29,6 +29,11 @@ chrome.runtime.onMessage.addListener( function( request, sender, sendResponse) {
 						sendResponse( { control: false } );
 					} );
 					break;
+				case 'inputChanged':
+					chrome.tabs.executeScript( {
+						code: `var storage = ${ JSON.stringify( storage ) }`,
+					});
+					break;
 			}
 		} );
 	} );

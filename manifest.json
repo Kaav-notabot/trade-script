@@ -14,5 +14,9 @@
 		"activeTab",
 		"storage",
 		"*://*/*"
+	],
+	"web_accessible_resources": [
+		"src/sounds/buy.mp3",
+		"src/sounds/sell.mp3"
 	]
 }
